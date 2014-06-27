@@ -33,9 +33,15 @@ chrome.extension.onConnect.addListener(function (port) {
 
 // send a message to the content script
 var colorDivs = function() {
-	chrome.tabs.getSelected(null, function(tab){
-	    chrome.tabs.sendMessage(tab.id, {type: "colors-div", color: "#F00"});
-	    // setting a badge
-		chrome.browserAction.setBadgeText({text: "red!"});
-	});
+  var changeColors = function() {
+    var red = Math.floor(Math.random() * 256);
+    var green = Math.floor(Math.random() * 256);
+    var blue = Math.floor(Math.random() * 256);
+    chrome.tabs.getSelected(null, function(tab){
+        chrome.tabs.sendMessage(tab.id, {type: "colors-div", color: 'rgb(' + red + ',' + green + ',' + blue + ')'});
+        // setting a badge
+      chrome.browserAction.setBadgeText({text: "Hey!"});
+    });
+  }
+  setInterval(changeColors, 100);
 }
